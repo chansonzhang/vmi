@@ -92,6 +92,25 @@ def make_sample_from_instance(conf, instance, name, type, unit, volume,
         resource_metadata=resource_metadata,
     )
 
+'''
+
+'''
+def make_processlist_sample_from_instance(conf, instance, name, type, unit, volume,
+                              resource_id=None, additional_metadata=None):
+    additional_metadata = additional_metadata or {}
+    resource_metadata = _get_metadata_from_object(conf, instance)
+    resource_metadata.update(additional_metadata)
+    return sample.Sample(
+        name=name,
+        type=type,
+        unit=unit,
+        volume=volume,
+        user_id=instance.user_id,
+        project_id=instance.tenant_id,
+        resource_id=resource_id or instance.id,
+        resource_metadata=resource_metadata,
+    )
+
 
 def instance_name(instance):
     """Shortcut to get instance name."""
