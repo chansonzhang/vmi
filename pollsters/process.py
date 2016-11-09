@@ -37,13 +37,13 @@ class ProcessListPollster(pollsters.BaseComputePollster):
     def get_samples(self, manager, cache, resources):
         self._inspection_duration = self._record_poll_time()
         for instance in resources:
-            LOG.debug('Getting process list for instance %s', util.instance_name(instance))
+            instance_name=util.instance_name(instance)
+            LOG.debug('Getting process list for instance %s',instance_name )
             try:
-                memory_info = self.inspector.inspect_memory_usage(
-                    instance, self._inspection_duration)
-                LOG.debug("MEMORY USAGE: %(instance)s %(usage)f",
+                process_list = self.inspector.get_process_list(instance_name)
+                LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)f",
                           {'instance': instance,
-                           'usage': memory_info.usage})
+                           'plist_length': len(process_list)})
                 yield util.make_sample_from_instance(
                     cfg.CONF,
                     instance,
