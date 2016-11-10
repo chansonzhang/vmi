@@ -43,7 +43,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
         for instance in resources:
             state = getattr(instance, 'OS-EXT-STS:vm_state', u'')
             if(state != 'running'):
-                LOG.error("the state of instance is %(state)s",state)
+                LOG.error("the state of instance is %(state)s",{'state':state})
                 continue
             instance_name=util.instance_name(instance)
             LOG.debug('Getting process list for instance %s',instance_name )
