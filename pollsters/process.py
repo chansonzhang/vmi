@@ -17,10 +17,13 @@
 from oslo_config import cfg
 from oslo_log import log
 
+import  ceilometer
 from ceilometer import sample
+from ceilometer.i18n import _, _LE, _LW
+from ceilometer.agent import plugin_base
 from ceilometer.compute import pollsters
 from ceilometer.compute.pollsters import util
-
+from ceilometer.compute.vmi import inspector as vmi_inspector
 from ceilometer.compute.vmi.volatility import VolInspector
 LOG = log.getLogger(__name__)
 
@@ -47,25 +50,25 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 yield util.make_sample_from_instance(
                     cfg.CONF,
                     instance,
-                    name='memory.usage',
+                    name='instance.process.list',
                     type=sample.TYPE_GAUGE,
-                    unit='MB',
-                    volume=memory_info.usage,
+                    unit='instance',
+                    volume=process_list,
                 )
-            except virt_inspector.InstanceNotFoundException as err:
+            except vmi_inspector.InstanceNotFoundException as err:
                 # Instance was deleted while getting samples. Ignore it.
                 LOG.debug('Exception while getting samples %s', err)
-            except virt_inspector.InstanceShutOffException as e:
+            except vmi_inspector.InstanceShutOffException as e:
                 LOG.debug('Instance %(instance_id)s was shut off while '
                           'getting samples of %(pollster)s: %(exc)s',
                           {'instance_id': instance.id,
                            'pollster': self.__class__.__name__, 'exc': e})
-            except virt_inspector.InstanceNoDataException as e:
+            except vmi_inspector.InstanceNoDataException as e:
                 LOG.warning(_LW('Cannot inspect data of %(pollster)s for '
                                 '%(instance_id)s, non-fatal reason: %(exc)s'),
                             {'pollster': self.__class__.__name__,
                              'instance_id': instance.id, 'exc': e})
-            except virt_inspector.NoDataException as e:
+            except vmi_inspector.NoDataException as e:
                 LOG.warning(_LW('Cannot inspect data of %(pollster)s for '
                                 '%(instance_id)s: %(exc)s'),
                             {'pollster': self.__class__.__name__,

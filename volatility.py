@@ -1,5 +1,7 @@
+from oslo_log import log
 import subprocess
 from ceilometer.compute.vmi.model import Process
+LOG = log.getLogger(__name__)
 
 class VolInspector(object):
 
@@ -16,6 +18,13 @@ class VolInspector(object):
         for index in range(len(raw_list)):
             if(index>=2): #jump the header and seperator line
                 elements = raw_list[index].split(" ")
-                process = Process(elements[1],elements[2],elements[3],elements[4],elements[6],elements[5],elements[0])
+                try:
+                    process = Process(elements[1], elements[2], elements[3], elements[4], elements[6], elements[5], elements[0])
+                except subprocess.CalledProcessError as e:
+                    out_bytes = e.output  # Output generated before error
+                    code = e.returncode  # Return code
+                    LOG.error("Error when get process, the output generated before error:%(out_bytes)s, the return code is %(return_code)s",
+                              {'out_bytes': out_bytes,
+                               'return_code': code})
                 process_list.append(process)
         return process
