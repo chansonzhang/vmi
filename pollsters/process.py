@@ -29,6 +29,7 @@ LOG = log.getLogger(__name__)
 
 class ProcessListPollster(pollsters.BaseComputePollster):
 
+    @property
     def inspector(self):
         try:
             inspector = ProcessListPollster._inspector
