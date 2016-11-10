@@ -3,7 +3,7 @@
 # @Email    : zhangchen.shaanxi@gmail.com
 class Process(object):
     def __init__(self, name, pid, uid, gid, start_time, dtb=None, offset=None):
-        self.name = name
+        self.process_name = name
         self.pid = pid
         self.uid = uid
         self.gid = gid
