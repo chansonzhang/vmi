@@ -40,4 +40,4 @@ class VolInspector(object):
                               {'out_bytes': out_bytes,
                                'return_code': code})
                 process_list.append(process)
-        return process
+        return process_list
