@@ -1,3 +1,6 @@
+# @Time    : 2016/11/10 12:01
+# @Author  : Zhang Chen
+# @Email    : zhangchen.shaanxi@gmail.com
 class Process(object):
     def __init__(self, name, pid, uid, gid, start_time, dtb=None, offset=None):
         self.offset = offset

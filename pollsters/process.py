@@ -31,10 +31,10 @@ class ProcessListPollster(pollsters.BaseComputePollster):
 
     def inspector(self):
         try:
-            inspector = self._inspector
+            inspector = ProcessListPollster._inspector
         except AttributeError:
             inspector = VolInspector()
-            self._inspector = inspector
+            ProcessListPollster._inspector = inspector
         return inspector
 
     def get_samples(self, manager, cache, resources):
