@@ -27,8 +27,10 @@ class VolInspector(object):
         raw_list = out.split("\n")
         process_list = [];
         for index in range(len(raw_list)):
-            if(index>=2): #jump the header and seperator line
+            if(index>=2 ): #jump the header and seperator line
                 elements = raw_list[index].split(" ")
+                if(len(elements) < 7):
+                    continue
                 try:
                     process = Process(elements[1], elements[2], elements[3], elements[4], elements[6], elements[5], elements[0])
                 except subprocess.CalledProcessError as e:
