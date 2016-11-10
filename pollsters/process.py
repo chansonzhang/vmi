@@ -41,7 +41,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
     def get_samples(self, manager, cache, resources):
         self._inspection_duration = self._record_poll_time()
         for instance in resources:
-            state = getattr(instance, 'OS-EXT-STS:vm_state', u'')
+            state = instance.status.lower()
             if(state != 'running'):
                 LOG.error("the state of instance is %(instance_state)s",{'instance_state':state})
                 continue
