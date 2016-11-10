@@ -28,11 +28,11 @@ class VolInspector(object):
         process_list = [];
         for index in range(len(raw_list)):
             if(index>=2 ): #jump the header and seperator line
-                elements = raw_list[index].split("\t")
-                if(len(elements) < 7):
+                elements = raw_list[index].split()
+                if(len(elements) < 9):
                     continue
                 try:
-                    process = Process(elements[1], elements[2], elements[3], elements[4], elements[6], elements[5], elements[0])
+                    process = Process(elements[1], elements[2], elements[3], elements[4], elements[6]+" "+elements[7]+" "+elements[8], elements[5], elements[0])
                 except subprocess.CalledProcessError as e:
                     out_bytes = e.output  # Output generated before error
                     code = e.returncode  # Return code
