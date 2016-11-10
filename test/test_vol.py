@@ -6,3 +6,5 @@ def testVolInspector():
     inspector=VolInspector()
     plist = inspector.get_process_list(instance_name)
     print(plist)
+
+testVolInspector()
