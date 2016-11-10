@@ -28,7 +28,7 @@ class VolInspector(object):
         process_list = [];
         for index in range(len(raw_list)):
             if(index>=2 ): #jump the header and seperator line
-                elements = raw_list[index].split(" ")
+                elements = raw_list[index].split("\t")
                 if(len(elements) < 7):
                     continue
                 try:
