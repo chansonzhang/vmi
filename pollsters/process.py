@@ -51,7 +51,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 yield util.make_sample_from_instance(
                     cfg.CONF,
                     instance,
-                    name='instance.process.list',
+                    name='instance.process_list',
                     type=sample.TYPE_GAUGE,
                     unit='instance',
                     volume=process_list,
@@ -81,6 +81,6 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                           self.inspector.__class__.__name__)
                 raise plugin_base.PollsterPermanentError(resources)
             except Exception as err:
-                LOG.exception(_('Could not get Memory Usage for '
+                LOG.exception(_('Could not get Process List for '
                                 '%(id)s: %(e)s'), {'id': instance.id,
                                                    'e': err})
