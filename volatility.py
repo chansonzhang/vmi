@@ -5,6 +5,14 @@ LOG = log.getLogger(__name__)
 
 class VolInspector(object):
 
+    def check_sanity(self):
+        """Check the sanity of hypervisor inspector.
+
+        Each subclass could overwrite it to throw any exception
+        when detecting mis-configured inspector
+        """
+        pass
+
     '''
     Offset             Name                 Pid             Uid             Gid    DTB                Start Time
     ------------------ -------------------- --------------- --------------- ------ ------------------ ----------
