@@ -43,7 +43,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
         for instance in resources:
             state = instance.status.lower()
             if(state != 'active'):
-                LOG.error("the state of instance is %(instance_state)s",{'instance_state':state})
+                LOG.info("Skip the instance with status %(instance_state)s",{'instance_state':state})
                 continue
             instance_name=util.instance_name(instance)
             LOG.debug('Getting process list for instance %s',instance_name )
@@ -55,7 +55,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 yield util.make_sample_from_instance(
                     cfg.CONF,
                     instance,
-                    name='instance.process_list',
+                    name='instance.process.list',
                     type=sample.TYPE_GAUGE,
                     unit='instance',
                     volume=process_list,
