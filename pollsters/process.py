@@ -18,6 +18,7 @@ from oslo_config import cfg
 from oslo_log import log
 
 import ceilometer
+import pdb 
 from ceilometer import sample
 from ceilometer.i18n import _, _LE, _LW
 from ceilometer.agent import plugin_base
@@ -53,6 +54,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)f",
                           {'instance': instance,
                            'plist_length': len(process_list)})
+                pdb.set_trace()
                 yield util.make_sample_from_instance(
                     cfg.CONF,
                     instance,
