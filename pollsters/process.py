@@ -17,7 +17,7 @@
 from oslo_config import cfg
 from oslo_log import log
 
-import  ceilometer
+import ceilometer
 from ceilometer import sample
 from ceilometer.i18n import _, _LE, _LW
 from ceilometer.agent import plugin_base
@@ -25,10 +25,11 @@ from ceilometer.compute import pollsters
 from ceilometer.compute.pollsters import util
 from ceilometer.compute.vmi import inspector as vmi_inspector
 from ceilometer.compute.vmi.volatility import VolInspector
+
 LOG = log.getLogger(__name__)
 
-class ProcessListPollster(pollsters.BaseComputePollster):
 
+class ProcessListPollster(pollsters.BaseComputePollster):
     @property
     def inspector(self):
         try:
@@ -42,11 +43,11 @@ class ProcessListPollster(pollsters.BaseComputePollster):
         self._inspection_duration = self._record_poll_time()
         for instance in resources:
             state = instance.status.lower()
-            if(state != 'active'):
-                LOG.info("Skip the instance with status %(instance_state)s",{'instance_state':state})
+            if (state != 'active'):
+                LOG.info("Skip the instance with status %(instance_state)s", {'instance_state': state})
                 continue
-            instance_name=util.instance_name(instance)
-            LOG.debug('Getting process list for instance %s',instance_name )
+            instance_name = util.instance_name(instance)
+            LOG.debug('Getting process list for instance %s', instance_name)
             try:
                 process_list = self.inspector.get_process_list(instance_name)
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)f",
