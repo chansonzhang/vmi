@@ -50,6 +50,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
             instance_name = util.instance_name(instance)
             LOG.debug('Getting process list for instance %s', instance_name)
             try:
+                LOG.debug('Using inspector %s', self.inspector)
                 process_list = self.inspector.get_process_list(instance_name)
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)f",
                           {'instance': instance,
