@@ -7,7 +7,6 @@ from oslo_config import cfg
 from oslo_log import log
 LOG = log.getLogger(__name__)
 import ceilometer
-import pdb
 from ceilometer import sample
 from ceilometer.i18n import _, _LE, _LW
 from ceilometer.agent import plugin_base
