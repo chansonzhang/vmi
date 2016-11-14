@@ -44,4 +44,7 @@ class VolInspector(object):
                         {'out_bytes': out_bytes,
                          'return_code': code})
                 process_list.append(process)
+        LOG.debug('Instance: %(instance_name)s, Length: %(length)s',
+                  {'instance_name': instance_name,
+                   'length': len(process_list)})
         return process_list
