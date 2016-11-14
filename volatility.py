@@ -27,6 +27,8 @@ class VolInspector(object):
         command = "vol.py -l vmi://" + instance_name + " --profile LinuxCentos7-3_10_0-327_36_3_el7_x86_64x64 linux_pslist"
         out = subprocess.check_output(command, shell=True).decode('utf-8')
         raw_list = out.split("\n")
+        LOG.debug('Raw_list: %(raw_list)s',
+                  {'raw_list': raw_list})
         process_list = []
         for index in range(len(raw_list)):
             if (index >= 2):  # jump the header and seperator line
