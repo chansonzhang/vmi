@@ -3,6 +3,8 @@
 # @Email    : zhangchen.shaanxi@gmail.com
 from oslo_log import log
 import subprocess
+import pika
+import uuid
 from ceilometer.compute.vmi.model import Process
 
 LOG = log.getLogger(__name__)
@@ -24,31 +26,53 @@ class VolInspector(object):
     '''
 
     def get_process_list(self, instance_name):
-        command = "su - root -c 'vol.py -l vmi://" + instance_name + " --profile=LinuxCentos7-3_10_0-327_36_3_el7_x86_64x64 linux_pslist'"
-        LOG.debug('Command: %(command)s',
-                  {'command': command})
-        out = subprocess.check_output("export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH && "+command, shell=True).decode('utf-8')
-        LOG.debug('Out: %(out)s',
-                  {'out': out})
-        raw_list = out.split("\n")
+        vmi_rpc = VMIRpcClient()
+        LOG.debug(" [x] Requesting get_process_list(%s)", instance_name)
+        raw_list = vmi_rpc.call(instance_name)
+        LOG.debug(" [.] Got %s" % raw_list)
         process_list = []
         for index in range(len(raw_list)):
             if (index >= 2):  # jump the header and seperator line
                 elements = raw_list[index].split()
                 if (len(elements) < 9):
                     continue
-                try:
-                    process = Process(elements[1], elements[2], elements[3], elements[4],
+                process = Process(elements[1], elements[2], elements[3], elements[4],
                                       elements[6] + " " + elements[7] + " " + elements[8], elements[5], elements[0])
-                except subprocess.CalledProcessError as e:
-                    out_bytes = e.output  # Output generated before error
-                    code = e.returncode  # Return code
-                    LOG.error(
-                        "Error when get process, the output generated before error:%(out_bytes)s, the return code is %(return_code)s",
-                        {'out_bytes': out_bytes,
-                         'return_code': code})
                 process_list.append(process)
         LOG.debug('Instance: %(instance_name)s, Length: %(length)s',
                   {'instance_name': instance_name,
                    'length': len(process_list)})
         return process_list
+
+
+class VMIRpcClient(object):
+    def __init__(self):
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(
+                host='localhost'))
+
+        self.channel = self.connection.channel()
+
+        result = self.channel.queue_declare(exclusive=True)
+        self.callback_queue = result.method.queue
+
+        self.channel.basic_consume(self.on_response, no_ack=True,
+                                   queue=self.callback_queue)
+
+    def on_response(self, ch, method, props, body):
+        if self.corr_id == props.correlation_id:
+            self.response = body
+
+    def call(self, instance_name):
+        self.response = None
+        self.corr_id = str(uuid.uuid4())
+        self.channel.basic_publish(exchange='',
+                                   routing_key='rpc_queue',
+                                   properties=pika.BasicProperties(
+                                         reply_to = self.callback_queue,
+                                         correlation_id = self.corr_id,
+                                         ),
+                                   body=str(instance_name))
+        while self.response is None:
+            self.connection.process_data_events()
+        return str(self.response)
+
