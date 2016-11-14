@@ -5,18 +5,18 @@
 
 from oslo_config import cfg
 from oslo_log import log
-
+LOG = log.getLogger(__name__)
 import ceilometer
 import pdb
 from ceilometer import sample
 from ceilometer.i18n import _, _LE, _LW
 from ceilometer.agent import plugin_base
 from ceilometer.compute import pollsters
-from ceilometer.compute.pollsters import util
+from ceilometer.compute.vmi.pollsters import util
 from ceilometer.compute.vmi import inspector as vmi_inspector
 from ceilometer.compute.vmi.volatility import VolInspector
 
-LOG = log.getLogger(__name__)
+
 
 
 class ProcessListPollster(pollsters.BaseComputePollster):
