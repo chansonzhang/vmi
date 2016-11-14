@@ -45,7 +45,6 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                           {'instance': instance,
                            'plist_length': process_list[0].process_name})
                 yield util.make_sample_from_instance(
-                    cfg.CONF,
                     instance,
                     name='plist',
                     type=sample.TYPE_GAUGE,
