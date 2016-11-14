@@ -31,6 +31,7 @@ class VolInspector(object):
         raw_list = vmi_rpc.call(instance_name)
         LOG.debug(" [.] Got %s" % raw_list)
         process_list = []
+        LOG.debug("Length of raw_list: %s" % len(raw_list))
         for index in range(len(raw_list)):
             if (index >= 2):  # jump the header and seperator line
                 elements = raw_list[index].split()
