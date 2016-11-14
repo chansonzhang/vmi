@@ -12,7 +12,7 @@ from ceilometer import sample
 from ceilometer.i18n import _, _LE, _LW
 from ceilometer.agent import plugin_base
 from ceilometer.compute import pollsters
-from ceilometer.compute.vmi.pollsters import util
+from ceilometer.compute.pollsters import util
 from ceilometer.compute.vmi import inspector as vmi_inspector
 from ceilometer.compute.vmi.volatility import VolInspector
 
