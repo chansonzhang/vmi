@@ -28,7 +28,7 @@ class VolInspector(object):
     def get_process_list(self, instance_name):
         vmi_rpc = VMIRpcClient()
         LOG.debug(" [x] Requesting get_process_list(%s)", instance_name)
-        raw_list = vmi_rpc.call(instance_name)
+        raw_list = vmi_rpc.call(instance_name).split("\n")
         LOG.debug(" [.] Got %s" % raw_list)
         process_list = []
         LOG.debug("Length of raw_list: %s" % len(raw_list))
