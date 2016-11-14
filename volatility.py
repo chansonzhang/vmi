@@ -25,11 +25,8 @@ class VolInspector(object):
 
     def get_process_list(self, instance_name):
         command = "vol.py -l vmi://" + instance_name + " --profile LinuxCentos7-3_10_0-327_36_3_el7_x86_64x64 linux_pslist"
-        subprocess.check_output("export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH", shell=True)
-        path=subprocess.check_output("echo $LD_LIBRARY_PATH", shell=True)
-        LOG.debug('LD_LIBRARY_PATH: %(path)s',
-                  {'path': path})
-        out = subprocess.check_output("export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH && "+command, shell=True).decode('utf-8')
+        #subprocess.check_output("export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH", shell=True)
+        out = subprocess.check_output(command, shell=True).decode('utf-8')
         LOG.debug('Out: %(out)s',
                   {'out': out})
         raw_list = out.split("\n")
