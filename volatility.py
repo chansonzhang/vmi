@@ -29,7 +29,7 @@ class VolInspector(object):
         path=subprocess.check_output("echo $LD_LIBRARY_PATH", shell=True)
         LOG.debug('LD_LIBRARY_PATH: %(path)s',
                   {'path': path})
-        out = subprocess.check_output(command, shell=True).decode('utf-8')
+        out = subprocess.check_output("export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH && "+command, shell=True).decode('utf-8')
         LOG.debug('Out: %(out)s',
                   {'out': out})
         raw_list = out.split("\n")
