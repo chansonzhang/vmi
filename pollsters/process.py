@@ -42,7 +42,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 process_list = self.inspector.get_process_list(instance_name)
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)s",
                           {'instance': instance,
-                           'plist_length': process_list[0].process_name})
+                           'plist_length': process_list[0]['process_name']})
                 yield util.make_sample_from_instance(
                     instance,
                     name='plist',
