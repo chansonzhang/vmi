@@ -39,7 +39,7 @@ class VolInspector(object):
                     continue
                 process = Process(elements[1], elements[2], elements[3], elements[4],
                                       elements[6] + " " + elements[7] + " " + elements[8], elements[5], elements[0])
-                process_list.append(process)
+                process_list.append(process.__dict__)
         LOG.debug('Instance: %(instance_name)s, Length: %(length)s',
                   {'instance_name': instance_name,
                    'length': len(process_list)})
