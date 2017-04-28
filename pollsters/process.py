@@ -7,6 +7,7 @@ from oslo_config import cfg
 from oslo_log import log
 LOG = log.getLogger(__name__)
 import ceilometer
+import datetime;
 from ceilometer import sample
 from ceilometer.i18n import _, _LE, _LW
 from ceilometer.agent import plugin_base
@@ -14,7 +15,7 @@ from ceilometer.compute import pollsters
 from ceilometer.compute.pollsters import util
 from ceilometer.compute.vmi import inspector as vmi_inspector
 from ceilometer.compute.vmi.volatility import VolInspector
-
+from ceilometer.compute.vmi.utils.fileUtils import FileUtils;
 
 
 
@@ -39,7 +40,11 @@ class ProcessListPollster(pollsters.BaseComputePollster):
             LOG.debug('Getting process list for instance %s', instance_name)
             try:
                 LOG.debug('Using inspector %s', self.inspector)
+                time1=datetime.datetime.now();
                 process_list = self.inspector.get_process_list(instance_name)
+                time2=datetime.datetime.now();
+                latency=(time2-time1).seconds;
+                FileUtils.write_introspection_latency(latency);
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)s",
                           {'instance': instance,
                            'plist_length': process_list[0]['process_name']})
