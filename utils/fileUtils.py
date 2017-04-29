@@ -8,7 +8,7 @@ from oslo_log import log
 LOG = log.getLogger(__name__)
 
 class FileUtils:
-    data_dir = "./data/"
+    data_dir = "/experiment/"
     file_prefix = time.strftime("%Y%m%d%H0000-", time.localtime())
     file_name = "introspection_latency";
 
