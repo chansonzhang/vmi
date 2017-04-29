@@ -15,7 +15,7 @@ class FileUtils:
         if os.path.isdir(cls.data_dir):
             pass;
         else:
-            os.mkdir(cls.data_dir);
+            os.mkdir(cls.data_dir,0o777);
         file = open(cls.data_dir + cls.file_prefix + cls.file_name,'a');
         file.write(str(content)+"\n")
         file.close();
