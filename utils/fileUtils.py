@@ -2,6 +2,7 @@
 # @Author  : Zhang Chen
 # @Email    : zhangchen.shaanxi@gmail.com
 # @File    : fileUtils.py
+import os
 import time;
 
 class FileUtils:
@@ -11,6 +12,10 @@ class FileUtils:
 
     @classmethod
     def write_introspection_latency(cls,content):
+        if os.path.isdir(cls.data_dir):
+            pass;
+        else:
+            os.mkdir(cls.data_dir);
         file = open(cls.data_dir + cls.file_prefix + cls.file_name,'a');
         file.write(content+"\n")
         file.close();
