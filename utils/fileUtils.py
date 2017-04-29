@@ -4,6 +4,8 @@
 # @File    : fileUtils.py
 import os
 import time;
+from oslo_log import log
+LOG = log.getLogger(__name__)
 
 class FileUtils:
     data_dir = "./data/"
@@ -16,6 +18,8 @@ class FileUtils:
             pass;
         else:
             os.mkdir(cls.data_dir,0o777);
+
+        LOG.debug('Using dir %s', os.path.abspath(cls.data_dir))
         file = open(cls.data_dir + cls.file_prefix + cls.file_name,'a');
         file.write(str(content)+"\n")
         file.close();
