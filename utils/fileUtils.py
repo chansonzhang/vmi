@@ -9,9 +9,9 @@ class FileUtils:
     file_prefix = time.strftime("%Y%m%d%H0000-", time.localtime())
     file_name = "introspection_latency";
 
-    @staticmethod
-    def write_introspection_latency(self, content):
-        file = open(self.data_dir + self.file_prefix + self.file_name,'a');
+    @classmethod
+    def write_introspection_latency(cls,content):
+        file = open(cls.data_dir + cls.file_prefix + cls.file_name,'a');
         file.write(content+"\n")
         file.close();
 
