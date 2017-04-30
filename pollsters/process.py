@@ -43,7 +43,7 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 time1=datetime.datetime.now();
                 process_list = self.inspector.get_process_list(instance_name)
                 time2=datetime.datetime.now();
-                latency=(time2-time1).seconds;
+                latency=(time2-time1).microseconds;
                 FileUtils.write_introspection_latency(latency);
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)s",
                           {'instance': instance,
@@ -83,3 +83,4 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 LOG.exception(_('Could not get Process List for '
                                 '%(id)s: %(e)s'), {'id': instance.id,
                                                    'e': err})
+
