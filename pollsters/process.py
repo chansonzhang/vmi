@@ -44,7 +44,8 @@ class ProcessListPollster(pollsters.BaseComputePollster):
                 process_list = self.inspector.get_process_list(instance_name)
                 time2=datetime.datetime.now();
                 latency=(time2-time1).total_seconds();
-                FileUtils.write_introspection_latency(latency*1000);
+                timestamp = time1.strftime("%Y-%m-%d'T'%H:%M:%S.%f\'Z\'")
+                FileUtils.write_introspection_latency(timestamp+"\t"+latency*1000);
                 LOG.debug("PROCESS LIST: %(instance)s lenth: %(plist_length)s",
                           {'instance': instance,
                            'plist_length': process_list[0]['process_name']})
